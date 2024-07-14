@@ -1,0 +1,26 @@
+{
+    "name": "Add groups to container",
+    "id": "add-roups",
+    "version": "0.0.1",
+    "description": "Add user groups of host to the remoter user (e.g., for device access).",
+    "options": {
+        "addGroups": {
+            "type": "string",
+            "proposals": [
+                "file://.devcontainers/host_groups",
+                "4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),116(lpadmin),999(docker)"
+            ],
+            "default": "",
+            "description": "A file or entry of groups, see proposals."
+        },
+        "storeBackup": {
+            "type": "string",
+            "default": "",
+            "description": "Backup group and user file to specified location (mostly for debugging or testing)."
+        }
+    },
+    "installsAfter": [
+        "ghcr.io/devcontainers/features/common-utils"
+    ],
+    "onCreateCommand": "/usr/local/share/AIT-Assistive-Autonomous-Systems/devcontainer_features/add-groups.sh"
+}

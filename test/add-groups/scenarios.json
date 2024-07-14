@@ -1,0 +1,25 @@
+{
+    "add_groups_file": {
+        "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+        "features": {
+            "add-groups": {
+                "addGroups": "file://.devcontainer/add-groups/host_groups_test",
+                "storeBackup": "/test/add_groups_file_backup"
+            },
+            "ghcr.io/devcontainers/features/common-utils": {}
+        },
+        "remoteUser": "user"
+    },
+    "add_groups_value": {
+        "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+        "features": {
+            "add-groups": {
+                "addGroups": "100(group0),105(group1),65536(group2),1004(group3)",
+                "storeBackup": "/test/add_groups_file_backup"
+            },
+            "ghcr.io/devcontainers/features/common-utils": {}
+
+        },
+        "remoteUser": "otheruser"
+    }
+}
