@@ -60,4 +60,4 @@ Currently the `addGroups` option supports that above output format or a recusriv
 
 ---
 
-_Note: This file was auto-generated from the [devcontainer-feature.json](https://github.com/AIT-Assistive-Autonomous-Systems/devcontainer_features/blob/main/src//add-groups/devcontainer-feature.json).  Add additional notes to a `NOTES.md`._
+_Note: This file was auto-generated from the [devcontainer-feature.json](https://github.com/AIT-Assistive-Autonomous-Systems/devcontainer_features/blob/main/src/add-groups/devcontainer-feature.json).  Add additional notes to a `NOTES.md`._
