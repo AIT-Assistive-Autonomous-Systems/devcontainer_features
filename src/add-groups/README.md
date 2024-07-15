@@ -1,5 +1,5 @@
 
-# Add groups to container (add-roups)
+# Add groups to container (add-groups)
 
 Add user groups of host to the remoter user (e.g., for device access).
 
@@ -7,7 +7,7 @@ Add user groups of host to the remoter user (e.g., for device access).
 
 ```json
 "features": {
-    "ghcr.io/AIT-Assistive-Autonomous-Systems/devcontainer_features/add-roups:0": {}
+    "ghcr.io/AIT-Assistive-Autonomous-Systems/devcontainer_features/add-groups:0": {}
 }
 ```
 

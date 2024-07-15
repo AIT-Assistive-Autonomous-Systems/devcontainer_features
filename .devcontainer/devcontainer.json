@@ -14,7 +14,8 @@
             },
             "extensions": [
                 "mads-hartmann.bash-ide-vscode",
-                "EditorConfig.EditorConfig"
+                "EditorConfig.EditorConfig",
+                "github.vscode-github-actions"
             ]
         }
     },

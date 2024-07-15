@@ -1,6 +1,6 @@
 {
     "name": "Add groups to container",
-    "id": "add-roups",
+    "id": "add-groups",
     "version": "0.0.1",
     "description": "Add user groups of host to the remoter user (e.g., for device access).",
     "options": {
