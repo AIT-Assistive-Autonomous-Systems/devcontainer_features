@@ -20,7 +20,7 @@ In `vscode` this means either closing the last instance on your current (remote)
 # Options
 Currently the `addGroups` option supports that above output format or a recusrive resolve `file://path-to-file` with the above format. This is necessary as currently we don't have access to such a file until the container hooks run and have access to the workspace. If a referenced file is not found no-groups will be added or modified.
 
-# Example
+# Extended Example
 
 ```json
 {
