@@ -4,7 +4,7 @@
 # Licensed under the MIT License. See https://github.com/AIT-Assistive-Autonomous-Systems/devcontainer_features/blob/main/LICENSE for license information.
 #---------------------------------------------------------------------------------------------------------------------------------------------------------
 # Maintainer: * @AIT-Assistive-Autonomous-Systems/maintainers
-# This test file will be executed against the scenario add_groups_file.sh
+# This test file will be executed against the scenario add_groups_file
 
 set -e
 

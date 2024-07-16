@@ -17,9 +17,9 @@ groups_in_groups() {
     local current_groups=$1
     local groups=$2
     local gid=${3:-}
-
-    local IFS=,
     local regex
+
+    groups=$(echo $groups | tr ',' ' ')
 
     for group in $groups; do
         group_name="$(echo $group | cut -d "(" -f 2 | cut -d ")" -f 1)"
