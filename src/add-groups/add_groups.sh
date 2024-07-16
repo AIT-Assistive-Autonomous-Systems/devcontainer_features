@@ -11,10 +11,11 @@ ADD_GROUPS_PATH="$(dirname $0)"
 # We can not pass opts to vars or args of the commands it seems.
 ADD_GROUPS="file://$ADD_GROUPS_PATH/add-groups"
 ADD_GROUPS_USER="file://$ADD_GROUPS_PATH/add-groups-user"
+EXCLUDE_GROUPS="file://$ADD_GROUPS_PATH/exclude-groups"
 STORE_BACKUP="file://$ADD_GROUPS_PATH/store-backup"
 
 print_usage() {
-    echo "Usage: $0 -g groups_file -u user -b backup_path recording sequence"
+    echo "Usage: $0 -g groups_file -u user -b backup_path"
 
     echo "Add groups in file as suplemental groups to user and match ids."
     print_parsed_values
@@ -24,8 +25,27 @@ print_usage() {
 print_parsed_values() {
     echo values:
     echo "   -g \"$ADD_GROUPS\""
+    echo "   -x \"$EXCLUDE_GROUPS\""
     echo "   -u \"$ADD_GROUPS_USER\""
     echo "   -b \"$STORE_BACKUP\""
+}
+
+load_content_if_exists() {
+    # load value or content link
+    # empty if content can not be loaded
+    local content="$1"
+    local content_file="${content#file://}"
+
+    while [ "$content_file" != "$content" ]; do
+        if [ -f "$content_file" ]; then
+            content=$(cat "$content_file")
+        else
+            content=""
+        fi
+        content_file="${content#file://}"
+    done
+
+    echo $content
 }
 
 get_max_gid() {
@@ -50,31 +70,41 @@ get_max_gid() {
     echo $max_gid
 }
 
-load_content_if_exists() {
+exclude_groups() {
     # load value or content link
     # empty if content can not be loaded
-    local content="$1"
-    local content_file="${content#file://}"
+    local groups="${1:-}"
+    local exclude_groups="$(echo "${2:-}" | tr ',' ' ')"
 
-    while [ "$content_file" != "$content" ]; do
-        if [ -f "$content_file" ]; then
-            content=$(cat "$content_file")
-        else
-            content=""
+    for group in $exclude_groups; do
+        ### group is of the format id(groupname)
+        groupname="$(echo $group | cut -d "(" -f 2 | cut -d ")" -f 1)"
+        gid="$(echo $group | cut -d "(" -f 1)"
+
+        if [ -z "$gid" ]; then
+            gid="[0-9]+"
         fi
-        content_file="${content#file://}"
-    done
 
-    echo $content
+        if [ -z "$groupname" ]; then
+            groupname="\w*"
+        fi
+        groups=`echo $groups | sed -E "s/$gid\($groupname\),?//"`
+    done
+    groups=`echo $groups | sed -E "s/,+$//"`
+
+    echo "$groups"
 }
 
 set -eu
 
 # Parse flag-based arguments
-while getopts "hg:u:b:" opt; do
+while getopts "hg:u:b:x:" opt; do
   case ${opt} in
     g)
       ADD_GROUPS=$OPTARG
+      ;;
+    x)
+      EXCLUDE_GROUPS=$OPTARG
       ;;
     u)
       ADD_GROUPS_USER=$OPTARG
@@ -101,6 +131,7 @@ if [ -n "${USAGE_REQ:-}" ]; then
 fi
 
 ADD_GROUPS=$(load_content_if_exists "$ADD_GROUPS")
+EXCLUDE_GROUPS=$(load_content_if_exists "$EXCLUDE_GROUPS")
 ADD_GROUPS_USER=$(load_content_if_exists "$ADD_GROUPS_USER")
 STORE_BACKUP=$(load_content_if_exists "$STORE_BACKUP")
 
@@ -120,8 +151,7 @@ if [ -n "$STORE_BACKUP" ]; then
         sed -E "s/$(id -g)\($(id -gn)\),?//" | $SUDO_PREFIX tee "$STORE_BACKUP"
 fi
 
-OLD_IFS=$IFS
-IFS=","
+ADD_GROUPS=$(exclude_groups "$ADD_GROUPS" "$EXCLUDE_GROUPS" | tr ',' ' ')
 
 ### assign user the groups defined in ADD_GROUPS
 for group in $ADD_GROUPS; do
@@ -156,5 +186,3 @@ for group in $ADD_GROUPS; do
     # will not work but for completeness
     # newgrp - $groupname
 done
-
-IFS=$OLD_IFS

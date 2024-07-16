@@ -15,7 +15,8 @@
             "extensions": [
                 "mads-hartmann.bash-ide-vscode",
                 "EditorConfig.EditorConfig",
-                "github.vscode-github-actions"
+                "github.vscode-github-actions",
+                "streetsidesoftware.code-spell-checker"
             ]
         }
     },
