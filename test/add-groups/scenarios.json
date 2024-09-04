@@ -33,5 +33,19 @@
             "ghcr.io/devcontainers/features/common-utils": {}
         },
         "remoteUser": "exclusive"
+    },
+    "add_groups_file_build": {
+        "build": {
+            "dockerfile": "Dockerfile"
+        },
+        "features": {
+            "add-groups": {
+            "addGroups": "file:///host_groups_test",
+            "storeBackup": "/test/add_groups_file_backup",
+            "runAt": "build"
+            },
+            "ghcr.io/devcontainers/features/common-utils": {}
+        },
+        "remoteUser": "user"
     }
 }

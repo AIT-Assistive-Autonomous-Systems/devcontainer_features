@@ -22,6 +22,11 @@
             "default": "",
             "description": "A file with or entries of groups to be excluded from the option addGroups in the format id(group)[,], id(), (name) or () for next."
         },
+        "runAt": {
+            "type": "string",
+            "default": "create",
+            "description": "Specify when to add the users (build or create). Files must be available (e.g., added to the Dockerfile or part of a mount)."
+        },
         "storeBackup": {
             "type": "string",
             "default": "",

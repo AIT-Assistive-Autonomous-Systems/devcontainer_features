@@ -15,6 +15,7 @@ ADD_GROUPS_USER="${2:-${_REMOTE_USER}}"
 EXCLUDE_GROUPS="${3:-${EXCLUDEGROUPS:-}}"
 ADD_GROUPS_PATH="${4:-/usr/local/share/AIT-Assistive-Autonomous-Systems/devcontainer_features}"
 STORE_BACKUP="${STOREBACKUP:-}"
+RUN_AT="${RUNAT:-create}"
 
 mkdir -p "$ADD_GROUPS_PATH"
 rm -f "$ADD_GROUPS_PATH/add-groups" || true
@@ -26,3 +27,19 @@ echo "$STORE_BACKUP" > "$ADD_GROUPS_PATH/store-backup"
 
 cp add_groups.sh $ADD_GROUPS_PATH/add_groups.sh
 chmod +x $ADD_GROUPS_PATH/add_groups.sh
+
+case "$RUN_AT" in
+    create)
+        ;;
+    build)
+        $ADD_GROUPS_PATH/add_groups.sh
+        cat << EOF > $ADD_GROUPS_PATH/add_groups.sh
+#!/bin/sh
+true
+EOF
+        ;;
+    *)
+        echo "Unkown add_group run point: $RUN_AT"
+        exit 1
+        ;;
+esac
