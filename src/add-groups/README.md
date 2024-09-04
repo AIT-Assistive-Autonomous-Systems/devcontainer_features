@@ -17,6 +17,7 @@ Add user groups of host to the remoter user (e.g., for device access).
 |-----|-----|-----|-----|
 | addGroups | A file with or entries of groups, see proposals, in the format id(group)[,]. | string | - |
 | excludeGroups | A file with or entries of groups to be excluded from the option addGroups in the format id(group)[,], id(), (name) or () for next. | string | - |
+| runAt | Specify when to add the users (build or create). Files must be available (e.g., added to the Dockerfile or part of a mount). | string | create |
 | storeBackup | Backup group and user file to specified location (mostly for debugging or testing). | string | - |
 
 ## OS support
@@ -47,6 +48,10 @@ Currently the `addGroups` option supports that above output format or a recusriv
 ### excludeGroups
 
 Ideally in the future we can default it to remove the user group, right now you must either pre-filter it or add it to an exclude file as with host_groups. On most systems id will return the host group as the first group. Setting `excludeGroups` to `()` will remove the first entry resp. next group of the provided groups. `(),()` would remove the the first two entries from the provided string.
+
+### runAt
+
+If you are able to set your groups at image build time (as file in your image or as direct values), you can select `build` instead of `create` for running the script at image build time.
 
 ## Extended example
 
